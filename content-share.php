@@ -3,7 +3,7 @@
 <?php
 $page_title = __('Share a map', 'jeo');
 $map = false;
-if($_GET['map_id']) {
+if(isset($_GET['map_id']) && $_GET['map_id']) {
 	$map = get_post($_GET['map_id']);
 	if($map && get_post_type($map->ID) == 'map')
 		$page_title = __('Share', 'jeo') . ' ' . get_the_title($map->ID);
@@ -212,7 +212,7 @@ if($post_id) {
 							</a>
 						</h4>
 						<textarea id="output"></textarea>
-                        <div class="sub-inner">                        
+                        <div class="sub-inner">
                             <h5>
                                 <div class='popup arrow-right'>
                                 </div>
@@ -267,7 +267,7 @@ if($post_id) {
 </section>
 
 <script type="text/javascript">
-	jQuery(document).ready(function($) { 
+	jQuery(document).ready(function($) {
 		jeo_share_widget.controls();
 	});
 </script>

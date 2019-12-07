@@ -170,8 +170,9 @@ class JEO_Markers {
 
 	function query() {
 		global $wp_query;
-		$marker_query = apply_filters('jeo_marker_base_query', $wp_query);
-		$query = $marker_query->query_vars;
+        $marker_query = apply_filters('jeo_marker_base_query', $wp_query);
+        // by mohjak 2019-11-24 Fix Trying to get property 'query_vars' of non-object
+		$query = isset($marker_query) && $marker_query ? $marker_query->query_vars : null;
 		if(isset($query['suppress_filters']))
 			unset($query['suppress_filters']);
 
@@ -188,7 +189,9 @@ class JEO_Markers {
 			$query['map_id'] = $wp_query->get('map_id');
 		}
 
-		if(!$query['post_type'])
+        // by mohjak 2019-10-01 - tag issue 2019-10-10
+        // by mohjak 2019-11-24 Fix Undefined index: post_type
+		if(isset($query) && $query && isset($query['post_type']) && !$query['post_type'])
 			$query['post_type'] = jeo_get_mapped_post_types();
 
 		$query['post_status'] = 'publish';
@@ -196,7 +199,8 @@ class JEO_Markers {
 		$markers_limit = $this->get_limit();
 		$query['posts_per_page'] = $markers_limit;
 		if($markers_limit != -1) {
-			$amount = $marker_query->found_posts;
+            // Fix Trying to get property 'found_posts' of non-object
+			$amount = isset($marker_query) && $marker_query ? $marker_query->found_posts : 0;
 			if($markers_limit > $amount) {
 				$markers_limit = $amount;
 			} else {
@@ -685,7 +689,7 @@ class JEO_Markers {
 		} else {
 			global $wpdb;
 			foreach($keys as $key) {
-				$wpdb->query($wpdb->prepare("DELETE FROM $wpdb->postmeta WHERE meta_key = '{$key}'", null));
+				$wpdb->query($wpdb->prepare("DELETE FROM $wpdb->postmeta WHERE meta_key = '%s'", $key));
 			}
 		}
 	}

@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * JEO Marker Icons
  */
 
@@ -68,8 +68,17 @@ class JEO_Marker_Icons {
 
 	function get_marker_formatted($post_id = false) {
 
-		global $post;
-		$post_id = $post_id ? $post_id : $post->ID;
+        global $post;
+
+        // by mohjak 2019-11-21
+        if ($post_id) {
+            $post_id = $post_id;
+        } else {
+            if ($post !== null) {
+                $post_id = $post->ID;
+            }
+        }
+		// $post_id = $post_id ? $post_id : $post->ID;
 
 		$marker = array(
 			'iconUrl' => get_template_directory_uri() . '/img/marker.png',
@@ -175,7 +184,7 @@ class JEO_Marker_Icons {
 
 	function register_post_type() {
 
-		$labels = array( 
+		$labels = array(
 			'name' => __('Marker icons', 'jeo'),
 			'singular_name' => __('Marker icon', 'jeo'),
 			'add_new' => __('Add marker icon', 'jeo'),
@@ -189,7 +198,7 @@ class JEO_Marker_Icons {
 			'menu_name' => __('Marker icons', 'jeo')
 		);
 
-		$args = array( 
+		$args = array(
 			'labels' => $labels,
 			'hierarchical' => false,
 			'description' => __('JEO marker icons', 'jeo'),
@@ -477,7 +486,10 @@ class JEO_Marker_Icons {
 	}
 
 	function taxonomy_form_custom_field($term) {
-		$term_marker_id = $this->get_term_marker_id($term->term_id);
+        // by mohjak 2019-11-21
+        if (!is_string($term)) {
+            $term_marker_id = $this->get_term_marker_id($term->term_id);
+        }
 		?>
 		<tr class="form-field">
 			<th scope="row" valign="top">

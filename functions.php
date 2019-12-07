@@ -41,8 +41,7 @@ function jeo_setup() {
 		'id' => 'front_page',
 		'before_title' => '<h2 class="widget-title">',
 		'after_title' => '</h2>'
-	));
-
+    ));
 }
 add_action('after_setup_theme', 'jeo_setup');
 
@@ -57,6 +56,10 @@ function jeo_theme_scripts() {
 	wp_register_script('jquery-isotope', get_template_directory_uri() . '/lib/jquery.isotope.min.js', array('jquery'), '1.5.25');
 
 	wp_register_script('jeo-site', get_template_directory_uri() . '/js/site.js', array('jquery', 'jquery-isotope'));
+
+    // by mohjak
+    wp_register_script('d3.v4.min.js', 'https://ajax.googleapis.com/ajax/libs/d3js/4.13.0/d3.min.js', array(), '4.13.0', true);
+
 }
 add_action('wp_enqueue_scripts', 'jeo_theme_scripts', 5);
 
@@ -68,14 +71,17 @@ function jeo_enqueue_theme_scripts() {
 		wp_enqueue_script('jeo-site');
 
 	 if (is_singular())
-	 	wp_enqueue_script( "comment-reply" );
+         wp_enqueue_script( "comment-reply" );
 
+    // by mohjak
+    wp_enqueue_script('d3.v4.min.js');
 }
 add_action('wp_enqueue_scripts', 'jeo_enqueue_theme_scripts', 12);
 
 function jeo_flush_rewrite() {
-	global $pagenow;
-	if(is_admin() && array_key_exists('activated', $_REQUEST) && $_REQUEST['activated'] && $pagenow == 'themes.php') {
+    global $pagenow;
+    # by mohjak: 2019-11-21 issue#115
+	if(is_admin() && isset($_REQUEST['activated']) && $_REQUEST['activated'] && $pagenow == 'themes.php') {
 		global $wp_rewrite;
 		$wp_rewrite->init();
 		$wp_rewrite->flush_rules();

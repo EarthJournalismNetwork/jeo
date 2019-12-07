@@ -883,7 +883,7 @@ class Admin_Page_Framework {
 		<div class="wrap">
 			<?php
 				// Screen icon
-				$strHeader .= $this->arrIcons[$strPageSlug] ? '<div class="icon32" style="background-image: url(' . $this->arrIcons[$strPageSlug] . ');"><br /></div>' : get_screen_icon();
+				$strHeader .= $this->arrIcons[$strPageSlug] ? '<div class="icon32" style="background-image: url(' . $this->arrIcons[$strPageSlug] . ');"><br /></div>' : '';
 
 				// Page heading tabs
 				$strHeader .= ( $this->bShowPageHeadingTabs ) ? $this->AddPageHeadingTabs( $strPageSlug ) : '<h2>' . $this->arrPageTitles[$strPageSlug] . '</h2>';
@@ -2341,7 +2341,7 @@ class Admin_Page_Framework_Input_Filed_Types {	// since 1.0.4
 	protected function GetSelectField() {
 
 		// The label key must be an array for the select type.
-		if ( ! is_array( $this->arrField['label'] ) ) exit;	
+		if ( ! is_array( $this->arrField['label'] ) ) exit;
 
 		$strOutput = "<select id='{$this->strTagID}' class='{$this->arrField['class']}' name='{$this->strFieldName}' {$this->vDisable}>";
 		foreach ( $this->arrField['label'] as $strKey => $strLabel ) {
@@ -2373,8 +2373,8 @@ class Admin_Page_Framework_Input_Filed_Types {	// since 1.0.4
 			$arrValues = ( array ) $this->vValue;
 			$strOutput = "<div id='{$this->strTagID}'>";
 			foreach ( $this->arrField['label'] as $strKey => $strLabel ) {
-
-				$strChecked = ( $arrValues[ $strKey ] == 1 ) ? 'Checked' : '';
+                // by mohjak 2019-11-26 Fix Undefined index: map-layer Undefined index: page jeo_settings_issues
+				$strChecked = ( isset($arrValues[$strKey]) && $arrValues[ $strKey ] == 1 ) ? 'Checked' : '';
 				$strDisabled = $this->oUtil->GetCorrespondingArrayValue( $strKey, $this->vDisable ) ? 'disabled="Disabled"' : '' ;
 				$strOutput .= "<input type='hidden' name='{$this->strFieldName}[{$strKey}]' value='0' />";
 				$strOutput .= $this->oUtil->GetCorrespondingArrayValue( $strKey, $this->arrField['pre_field'] )

@@ -157,7 +157,7 @@ class JEO {
 
 		if(!is_admin()) {
 			do_action('jeo_enqueue_scripts');
-		}
+        }
 	}
 
 	function setup_post_types() {
@@ -635,8 +635,9 @@ class JEO {
 				$data['maps'][$map_id] = $map;
 				$data['maps'][$map_id] += $this->get_map_data($map['id']);
 			}
-		}
-		return apply_filters('jeo_mapgroup_data', $data, $post);
+        }
+        // by mohjak 2019-10-10
+        return apply_filters('jeo_mapgroup_data', $data, isset($post) ? $post : null);
 	}
 
 	function get_map_legend($map_id = false) {

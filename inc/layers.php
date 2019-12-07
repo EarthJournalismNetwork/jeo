@@ -119,7 +119,7 @@ class JEO_Layers {
 		wp_enqueue_script('underscore');
 		wp_enqueue_script('jquery-ui-sortable');
 		wp_enqueue_script('json2');
-		wp_enqueue_script('knockoutjs', get_template_directory_uri() . '/lib/knockout-3.2.0.js');
+		wp_enqueue_script('knockoutjs', get_template_directory_uri() . '/lib/knockout-3.5.0.js');
 	}
 
 	function settings_box($post = false) {

@@ -60,7 +60,7 @@ class JEO_Featured {
 
 		$query_vars = $query->query_vars;
 
-		if(!$query_vars['meta_query']) 
+		if(isset($query_vars['meta_query']) && !$query_vars['meta_query'])
 			$query_vars['meta_query'] = array();
 
 		$query_vars['meta_query'][] = array(
