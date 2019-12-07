@@ -144,13 +144,15 @@ function cartochaco_submit_post() {
 		$return['error'] = __('Could not save submission', 'jeo');
 	}
 
-	header('Content Type: application/json');
+    // by mohjak 2019-11-24 Fix submit stroy Content Type issue
+	header('Content-Type: application/json');
 	echo json_encode($return);
 	exit;
 }
 
 function json_death($o) {
-	header('Content Type: application/json');
+    // by mohjak 2019-11-24 Fix submit stroy Content Type issue
+	header('Content-Type: application/json');
 	echo json_encode($o);
 	exit;
 }

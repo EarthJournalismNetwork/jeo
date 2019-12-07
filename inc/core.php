@@ -94,7 +94,7 @@ class JEO {
 		}
 
 		if($cartodb || is_admin()) {
-            
+
 			wp_register_script('leaflet', get_template_directory_uri() . '/lib/cartodb.js', array(), '3.3.05');
 			wp_enqueue_style('cartodb', get_template_directory_uri() . '/lib/cartodb.css');
 
@@ -152,7 +152,7 @@ class JEO {
 
 		if(!is_admin()) {
 			do_action('jeo_enqueue_scripts');
-		}
+        }
 	}
 
 	function setup_post_types() {
@@ -165,7 +165,7 @@ class JEO {
 		/*
 		 * Map
 		 */
-		$labels = array( 
+		$labels = array(
 			'name' => __('Maps', 'jeo'),
 			'singular_name' => __('Map', 'jeo'),
 			'add_new' => __('Add new map', 'jeo'),
@@ -198,7 +198,7 @@ class JEO {
 		/*
 		 * Map group
 		 */
-		$labels = array( 
+		$labels = array(
 			'name' => __('Map groups', 'jeo'),
 			'singular_name' => __('Map group', 'jeo'),
 			'add_new' => __('Add new map group', 'jeo'),
@@ -212,7 +212,7 @@ class JEO {
 			'menu_name' => __('Map groups', 'jeo')
 		);
 
-		$args = array( 
+		$args = array(
 			'labels' => $labels,
 			'hierarchical' => true,
 			'description' => __('JEO Map Groups', 'jeo'),
@@ -683,16 +683,19 @@ class JEO {
 
 	function get_mapgroup_json_data($group_id = false) {
 		$group_id = $group_id ? $group_id : $_REQUEST['group_id'];
-		$data = json_encode($this->get_mapgroup_data($group_id));
-		header('Content Type: application/json');
+        $data = json_encode($this->get_mapgroup_data($group_id));
+        // by mohjak 2019-11-24 Fix Content Type
+		header('Content-Type: application/json');
 		echo $data;
 		exit;
 	}
 
 	function get_map_json_data($map_id = false) {
 		$map_id = $map_id ? $map_id : $_REQUEST['map_id'];
-		$data = json_encode($this->get_map_data($map_id));
-		header('Content Type: application/json');
+        $data = json_encode($this->get_map_data($map_id));
+
+        // by mohjak 2019-11-24 Fix Content Type issue
+		header('Content-Type: application/json');
 		echo $data;
 		exit;
 	}
@@ -713,18 +716,21 @@ class JEO {
 	 */
 
 	function plugin_fixes() {
-		$this->fix_qtranslate();
-	}
+		// $this->fix_qtranslate();
+    }
 
+    /*
 	function fix_qtranslate() {
 		if(function_exists('qtrans_getLanguage')) {
 			add_filter('get_the_date', array($this, 'qtranslate_get_the_date'), 10, 2);
 			add_filter('admin_url', array($this, 'qtranslate_admin_url'), 10, 2);
 			add_action('post_type_archive_link', 'qtrans_convertURL');
 		}
-	}
+    }
+    */
 
-	// enable custom format date
+    // enable custom format date
+    /*
 	function qtranslate_get_the_date($date, $format) {
 		if($format != '') {
 			$post = get_post();
@@ -732,14 +738,17 @@ class JEO {
 		}
 		return $date;
 	}
+    */
 
-	// send lang to ajax requests
+    // send lang to ajax requests
+    /*
 	function qtranslate_admin_url($url, $path) {
 		if($path == 'admin-ajax.php' && function_exists('qtrans_getLanguage'))
 			$url .= '?lang=' . qtrans_getLanguage();
 
 		return $url;
-	}
+    }
+    */
 }
 
 $jeo = new JEO();
@@ -766,7 +775,7 @@ function jeo_get_options() {
 
 function jeo_the_query($query) {
 	global $jeo;
-	return $jeo->the_query($query);	
+	return $jeo->the_query($query);
 }
 
 // mapped post types

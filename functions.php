@@ -16,6 +16,9 @@ function jeo_blank_scripts() {
   // deregister jeo site frontend scripts
   wp_deregister_script('jeo-site');
 
+    // by mohjak
+    wp_register_script('d3.v4.min.js', 'https://ajax.googleapis.com/ajax/libs/d3js/4.13.0/d3.min.js', array(), '4.13.0', true);
+    wp_enqueue_script('d3.v4.min.js');
 }
 add_action('wp_enqueue_scripts', 'jeo_blank_scripts', 10);
 
@@ -42,7 +45,6 @@ function jeo_blank_jeo_scripts() {
 
   // Enqueue child theme main CSS
   wp_enqueue_style('jeo-blank-styles', get_stylesheet_directory_uri() . '/css/main.css');
-
 }
 add_action('jeo_enqueue_scripts', 'jeo_blank_jeo_scripts', 20);
 
@@ -187,7 +189,7 @@ add_filter('jeo_featured_map_type', 'cartochaco_embed_type');
  */
 if(!class_exists('Acf')) {
 	function cartochaco_acf_dir() {
-		return get_stylesheet_directory_uri() . '/inc/acf/';
+		return ABSPATH . 'wp-content/plugins/advanced-custom-fields';
 	}
 	add_filter('acf/helpers/get_dir', 'cartochaco_acf_dir');
 
@@ -202,7 +204,7 @@ if(!class_exists('Acf')) {
 	add_filter('acf/add-ons/repeater/get_dir', 'cartochaco_acf_repeater_dir');
 
 	define('ACF_LITE', true);
-	require_once(STYLESHEETPATH . '/inc/acf/acf.php');
+	require_once(ABSPATH . 'wp-content/plugins/advanced-custom-fields/acf.php');
 }
 
 
@@ -236,14 +238,15 @@ function jeoblank_setup() {
 		'after_widget' => '</div>',
 		'before_title' => '<h3>',
 		'after_title' => '</h3>'
-	));
+    ));
 }
 add_action('after_setup_theme', 'jeoblank_setup');
 
 /*
  * Para mostrar una cantidad determinada de dataset por pagina.
  */
-/*function dataset_posts_per_page($query) {
+/*
+function dataset_posts_per_page($query) {
     if($query->query_vars['post_type'] == 'dataset'){
         $query->query_vars['posts_per_page'] = 1;
     }
@@ -251,5 +254,26 @@ add_action('after_setup_theme', 'jeoblank_setup');
 }
 if (!is_admin() ) add_filter('pre_get_posts', 'dataset_posts_per_page');*/
 
+/*
+ * Limpeza KSES para ACF - https://github.com/Hube2/acf-filters-and-functions/blob/master/acf-form-kses.php
+ */
 
-?>
+function acf_wp_kses_post($data, $post_id=0, $field=array()) {
+		if (isset($field['type']) &&
+		    ($field['type'] == 'repeater' || $field['type'] == 'flexible_content' || $field['type'] == 'clone' || $field['type'] == 'group')) {
+			// no need to run it on repeaters
+			// will be called agaian for each subfield
+			return $value;
+		}
+		if (!is_array($data)) {
+			return wp_kses_post($data);
+		}
+		$return = array();
+		if (count($data)) {
+			foreach ($data as $index => $value) {
+				$return[$index] = acf_wp_kses_post($value);
+			}
+		}
+		return $return;
+	}
+	add_filter('acf/update_value', 'acf_wp_kses_post', 10, 3);
