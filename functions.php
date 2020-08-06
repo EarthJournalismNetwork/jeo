@@ -189,7 +189,7 @@ add_filter('jeo_featured_map_type', 'cartochaco_embed_type');
  */
 if(!class_exists('Acf')) {
 	function cartochaco_acf_dir() {
-		return ABSPATH . 'wp-content/plugins/advanced-custom-fields';
+		return '/var/www/html/wp-content/plugins/advanced-custom-fields';
 	}
 	add_filter('acf/helpers/get_dir', 'cartochaco_acf_dir');
 
@@ -204,7 +204,7 @@ if(!class_exists('Acf')) {
 	add_filter('acf/add-ons/repeater/get_dir', 'cartochaco_acf_repeater_dir');
 
 	define('ACF_LITE', true);
-	require_once(ABSPATH . 'wp-content/plugins/advanced-custom-fields/acf.php');
+	require_once('/var/www/html/wp-content/plugins/advanced-custom-fields/acf.php');
 }
 
 

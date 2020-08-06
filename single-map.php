@@ -27,9 +27,9 @@
                             $rss = add_query_arg(array('feed' => 'rss'));
                             ?>
 <!--
-                            <a class="rss" href="<?php echo $rss; ?>"><?php _e('RSS Feed', 'jeo'); ?></a>
-                            <a class="geojson" href="<?php echo $geojson; ?>"><?php _e('Get GeoJSON', 'jeo'); ?></a>
-                            <a class="download" href="<?php echo $download; ?>"><?php _e('Download', 'jeo'); ?></a>
+                            <a class="rss" href="<?php /*echo $rss;*/ ?>"><?php /*_e('RSS Feed', 'jeo');*/ ?></a>
+                            <a class="geojson" href="<?php /*echo $geojson;*/ ?>"><?php /*_e('Get GeoJSON', 'jeo');*/ ?></a>
+                            <a class="download" href="<?php /*echo $download;*/ ?>"><?php /*_e('Download', 'jeo');*/ ?></a>
 //-->
                         </div>
                     </div>
