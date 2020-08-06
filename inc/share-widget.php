@@ -156,7 +156,9 @@ class JEO_Share_Widget {
 	}
 
 	function nav($items, $args) {
-		$share = '<li class="share' . ((get_query_var($this->query_var)) ? ' current_page_item' : '') . '"><a href="' . $this->get_share_url() . '">' . __('Share a map', 'jeo') . '</a></li>';
+		// $share = '<li class="share' . ((get_query_var($this->query_var)) ? ' current_page_item' : '') . '"><a href="' . $this->get_share_url() . '">' . __('Share a map', 'jeo') . '</a></li>';
+		// by mohjak: Fix issue #267 Remove 'Share a map' from the top menu
+		$share = '';
 		return $items . $share;
 	}
 
