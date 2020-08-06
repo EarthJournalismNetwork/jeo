@@ -110,7 +110,9 @@ class JEO {
 		wp_enqueue_style('leaflet-ie');
 
 		// MAPBOX
-		wp_register_script('mapbox-js', get_template_directory_uri() . '/lib/mapbox/mapbox.standalone.js', array('leaflet'), '1.2.0');
+		// https://api.mapbox.com/mapbox.js/v3.2.1/mapbox.standalone.js
+		wp_register_script('mapbox-js', get_template_directory_uri() . '/lib/mapbox/mapbox.standalone.js', array('leaflet'), '3.1.1');
+		// wp_register_script('mapbox-js', 'https://api.mapbox.com/mapbox.js/v3.2.1/mapbox.standalone.js', array('leaflet'), '3.2.1');
 		wp_enqueue_style('mapbox-js', get_template_directory_uri() . '/lib/mapbox/mapbox.standalone.css');
 
 		wp_register_script('imagesloaded', get_template_directory_uri() . '/lib/jquery.imagesloaded.min.js', array('jquery'));
