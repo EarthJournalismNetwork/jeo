@@ -170,8 +170,8 @@ class JEO_Markers {
 
 	function query() {
 		global $wp_query;
-        $marker_query = apply_filters('jeo_marker_base_query', $wp_query);
-        // by mohjak 2019-11-24 Fix Trying to get property 'query_vars' of non-object
+		$marker_query = apply_filters('jeo_marker_base_query', $wp_query);
+		// by mohjak 2019-11-24 Fix Trying to get property 'query_vars' of non-object
 		$query = isset($marker_query) && $marker_query ? $marker_query->query_vars : null;
 		if(isset($query['suppress_filters']))
 			unset($query['suppress_filters']);
@@ -189,8 +189,8 @@ class JEO_Markers {
 			$query['map_id'] = $wp_query->get('map_id');
 		}
 
-        // by mohjak 2019-10-01 - tag issue 2019-10-10
-        // by mohjak 2019-11-24 Fix Undefined index: post_type
+		// by mohjak 2019-10-01 - tag issue 2019-10-10
+		// by mohjak 2019-11-24 Fix Undefined index: post_type
 		if(isset($query) && $query && isset($query['post_type']) && !$query['post_type'])
 			$query['post_type'] = jeo_get_mapped_post_types();
 
@@ -355,7 +355,7 @@ class JEO_Markers {
 		$dependencies = array('jquery');
 
 		if($this->geocode_service == 'gmaps' && $this->gmaps_api_key) {
-			wp_register_script('google-maps-api', 'http://maps.googleapis.com/maps/api/js?v=3&key=' . $this->gmaps_api_key . '&sensor=true');
+			wp_register_script('google-maps-api', 'https://maps.googleapis.com/maps/api/js?v=3&key=' . $this->gmaps_api_key . '&sensor=true');
 			$dependencies[] = 'google-maps-api';
 		}
 

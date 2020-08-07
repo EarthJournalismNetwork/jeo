@@ -94,24 +94,57 @@ class JEO {
 		// }
 
 		if($cartodb || is_admin()) {
-
-			wp_register_script('leaflet', get_template_directory_uri() . '/lib/cartodb.js', array(), '3.15.10');
-			wp_enqueue_style('cartodb', get_template_directory_uri() . '/lib/cartodb.css', array(), '3.15.10');
-
+			// https://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js
+			// wp_register_script('cartodb-js', 'https://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js', array(), '3.15.19');
+			wp_register_script('leaflet', get_template_directory_uri() . '/lib/cartodb.js', array(), '3.15.19');
+			wp_enqueue_style('cartodb', get_template_directory_uri() . '/lib/cartodb.css', array(), '3.15.19');
 		} else {
-
-			wp_register_script('leaflet', get_template_directory_uri() . '/lib/leaflet/leaflet.js', array(), '0.7.3');
-            wp_enqueue_style('leaflet', get_template_directory_uri() . '/lib/leaflet/leaflet.css');
-
+			wp_register_script('leaflet-js', get_template_directory_uri() . '/lib/leaflet/leaflet.js', array(), '1.5.1');
+			wp_enqueue_style('leaflet-css', get_template_directory_uri() . '/lib/leaflet/leaflet.css', array(), '1.5.1');
 		}
 
 		wp_register_style('leaflet-ie', get_template_directory_uri() . '/lib/leaflet/leaflet.ie.css');
 		$GLOBALS['wp_styles']->add_data('leaflet-ie', 'conditional', 'lte IE 8');
 		wp_enqueue_style('leaflet-ie');
 
-		// MAPBOX
-		wp_register_script('mapbox-js', get_template_directory_uri() . '/lib/mapbox/mapbox.standalone.js', array('leaflet'), '2.2.1');
-		wp_enqueue_style('mapbox-js', get_template_directory_uri() . '/lib/mapbox/mapbox.standalone.css');
+		// MAPBOX by mohjak
+
+		// 3.3.1
+		/*
+		wp_register_script('mapbox-js', 'https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.standalone.js', array('leaflet'), '3.3.1');
+		wp_enqueue_style('mapbox-css', 'https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.css', array(), '3.3.1');
+                */
+		// 3.3.0
+		/*
+		wp_register_script('mapbox-js', 'https://api.mapbox.com/mapbox.js/v3.3.0/mapbox.standalone.js', array('leaflet'), '3.3.0');
+		wp_enqueue_style('mapbox-css', 'https://api.mapbox.com/mapbox.js/v3.3.0/mapbox.css', array(), '3.3.0');
+		*/
+
+		// 3.2.1
+		/*
+		wp_register_script('mapbox-js', get_template_directory_uri() . '/lib/mapbox/mapbox.js', array('leaflet'), '3.2.1');
+		wp_enqueue_style('mapbox-css', get_template_directory_uri() . '/lib/mapbox/mapbox.css', array(), '3.2.1');
+		*/
+
+		/*
+		wp_register_script('mapbox-js', 'https://api.mapbox.com/mapbox.js/v3.2.1/mapbox.js', array('leaflet'), '3.2.1');
+		wp_enqueue_style('mapbox-css', 'https://api.mapbox.com/mapbox.js/v3.2.1/mapbox.css', array(), '3.2.1'));
+		*/
+
+		/*
+		wp_register_script('mapbox-js', 'https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.js', array('cartodb-js'), '2.4.0');
+		wp_enqueue_style('mapbox-css', 'https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css', array(), '2.4.0');
+		*/
+
+		// 2.4.0
+		wp_register_script('mapbox-js', get_template_directory_uri() . '/lib/mapbox.js-bower-2.4.0/mapbox.standalone.js', array('leaflet'), '2.4.0');
+		wp_enqueue_style('mapbox-css', get_template_directory_uri() . '/lib/mapbox.js-bower-2.4.0/mapbox.css', array(), '2.4.0');
+
+		// 2.2.1
+		/*
+		wp_register_script('mapbox-js', 'https://api.mapbox.com/mapbox.js/v2.2.1/mapbox.standalone.js', array('leaflet'), '2.2.1');
+		wp_enqueue_style('mapbox-css', 'https://api.mapbox.com/mapbox.js/v2.2.1/mapbox.css', array(), '2.2.1');
+		*/
 
 		wp_register_script('imagesloaded', get_template_directory_uri() . '/lib/jquery.imagesloaded.min.js', array('jquery'));
 		wp_register_script('underscore', get_template_directory_uri() . '/lib/underscore-min.js', array(), '1.4.3');
@@ -119,7 +152,7 @@ class JEO {
 		/*
 		 * Local
 		 */
-		wp_enqueue_script('jeo', get_template_directory_uri() . '/inc/js/jeo.js', array('mapbox-js', 'underscore', 'jquery'), '0.4.3');
+		wp_enqueue_script('jeo', get_template_directory_uri() . '/inc/js/jeo.js', array('mapbox-js', 'underscore', 'jquery'), '0.4.4');
 
 		wp_enqueue_script('jeo.groups', get_template_directory_uri() . '/inc/js/groups.js', array('jeo'), '0.2.7');
 

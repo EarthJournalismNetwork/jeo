@@ -166,7 +166,7 @@ class JEO_Share_Widget {
 		$query = http_build_query($vars);
 		return apply_filters('jeo_share_url', home_url('/' . $this->slug . '/?' . $query));
 	}
-	
+
 }
 
 $jeo_share_widget = new JEO_Share_Widget();
